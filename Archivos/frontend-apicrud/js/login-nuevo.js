@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
         
-        const apiUrl = 'http://localhost/backend-apiCrud/login.php';
+        const apiUrl = 'http://localhost/backend-apiCrud/cors-proxy.php?target=login.php';
         console.log('Sending request to:', apiUrl);
         
         fetch(apiUrl, {

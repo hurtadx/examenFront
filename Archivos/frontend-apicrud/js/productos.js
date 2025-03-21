@@ -1,7 +1,7 @@
 // Funciones para gestionar productos
 
 // URL base de la API - IMPORTANTE: verifica esta ruta
-const API_URL = 'http://localhost/backend-apiCrud/index.php?url=productos';
+const API_URL = 'http://localhost/backend-apiCrud/cors-proxy.php?target=api-simple.php';
 
 // Función para cargar y mostrar todos los productos
 function cargarProductos() {
@@ -71,10 +71,11 @@ function agregarProducto(event) {
     event.preventDefault();
     
     const nombre = document.getElementById('nombre').value;
-    const descripcion = document.getElementById('descripcion').value;
+    const descripcion = document.getElementById('descripcion').value || '';
     const precio = document.getElementById('precio').value;
     const stock = document.getElementById('stock').value;
-    const imagen = document.getElementById('imagen').value || 'img/producto-default.jpg';
+    // Usar una URL de imagen de placeholder si no hay imagen
+    const imagen = document.getElementById('imagen').value || 'https://via.placeholder.com/200x150?text=No+Image';
     
     if (!nombre || nombre === 'Seleccionar un producto') {
         mostrarAlerta('Por favor seleccione un producto', 'error');
@@ -312,13 +313,26 @@ document.addEventListener('DOMContentLoaded', function() {
                     newOption.selected = true;
                 }
                 
-                document.getElementById('precio').value = productoEditar.precio;
-                document.getElementById('stock').value = productoEditar.stock;
-                document.getElementById('descripcion').value = productoEditar.descripcion;
-                document.getElementById('imagen').value = productoEditar.imagen;
+                // Asegurarse de que los valores no sean undefined antes de asignarlos
+                document.getElementById('precio').value = productoEditar.precio || '';
+                document.getElementById('stock').value = productoEditar.stock || '';
+                document.getElementById('descripcion').value = productoEditar.descripcion || '';
                 
-                // Mostrar la imagen del producto
-                document.getElementById('imagen-pro').src = productoEditar.imagen;
+                // Validar que la imagen no sea undefined
+                const imagenURL = productoEditar.imagen || '';
+                document.getElementById('imagen').value = imagenURL;
+                
+                // Mostrar la imagen del producto con manejo de errores
+                const imagenElement = document.getElementById('imagen-pro');
+                if (imagenURL && imagenURL.trim() !== '') {
+                    imagenElement.src = imagenURL;
+                    // Agregar un manejador de errores para la imagen
+                    imagenElement.onerror = function() {
+                        this.src = 'https://via.placeholder.com/200x150?text=No+Image';
+                    };
+                } else {
+                    imagenElement.src = 'https://via.placeholder.com/200x150?text=No+Image';
+                }
                 
                 // Modificar el evento del formulario para actualizar
                 formProducto.addEventListener('submit', function(e) {
