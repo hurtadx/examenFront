@@ -1,0 +1,45 @@
+###peticion get
+get http://localhost/apiCrud/operaciones
+
+###peticion post - verificar un usuario
+Post http://localhost/apiCrud/login
+Content-Type: application/json
+
+{
+    "usuario": "admin",
+    "contrasena": "admin12345"
+}
+
+###peticion get obtener productos
+get http://localhost/apiCrud/productos
+
+###peticion post para crear productos
+POST http://localhost/apiCrud/productos
+Content-Type: application/json
+
+{
+    "nombre": "Lasagna",
+    "descripcion": "Tripe carne",
+    "precio": 45000.00,
+    "stock": 10,
+    "imagen": "https://th.bing.com/th/id/R.4ec607d5ce0a5808dc26d80b2a1da2ec?rik=bZXR31LSCghW8w&pid=ImgRaw&r=0"
+}
+###peticion post para actualizar productos
+PUT http://localhost/apiCrud/productos
+Content-Type: application/json
+
+{
+    "id": 3,
+    "nombre": "Lasagna Mixta",
+    "descripcion": "Tripe carne",
+    "precio": 45000.00,
+    "stock": 10,
+    "imagen": "https://th.bing.com/th/id/R.4ec607d5ce0a5808dc26d80b2a1da2ec?rik=bZXR31LSCghW8w&pid=ImgRaw&r=0"
+}
+###peticion post para eliminar productos
+DELETE http://localhost/apiCrud/productos
+Content-Type: application/json
+
+{
+    "id": 3
+}
